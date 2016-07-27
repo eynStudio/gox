@@ -11,7 +11,7 @@ import (
 type Orm struct {
 	db      *sql.DB
 	dialect dialects.Dialect
-	mapper  func(string) string
+	mapper  MapperFn
 	//	models  *models
 }
 
@@ -33,7 +33,7 @@ func MustOpen(driver, source string) *Orm {
 	gox.Must(e)
 	return o
 }
-func (p *Orm) SetMapper(f func(string) string) *Orm {
+func (p *Orm) SetMapper(f MapperFn) *Orm {
 	p.mapper = f
 	return p
 }
