@@ -1,10 +1,11 @@
-package redis
+package redisx
 
 import (
+	"time"
+
 	. "github.com/eynstudio/gobreak"
 	"github.com/eynstudio/gobreak/log/datelog"
 	"github.com/garyburd/redigo/redis"
-	"time"
 )
 
 var Default Redis
