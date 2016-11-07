@@ -30,7 +30,7 @@ func BuildTree(src interface{}) []*TreeNode {
 }
 
 func buildTreeNodes(src interface{}, r *TreeNode, prefix string) {
-	results, _ := queryChildren(linq.From(src), prefix)
+	results := queryChildren(src, prefix)
 	for _, it := range results {
 		child := newTreeNode(it.(ITreeNode))
 		r.Nodes = append(r.Nodes, child)
@@ -38,11 +38,15 @@ func buildTreeNodes(src interface{}, r *TreeNode, prefix string) {
 	}
 }
 
-func queryChildren(q linq.Query, prefix string) ([]linq.T, error) {
-	return q.Where(func(s linq.T) (bool, error) {
+func queryChildren(ss interface{}, prefix string) []interface{} {
+	q := linq.From(ss).Where(func(s interface{}) bool {
 		last := strings.TrimPrefix(s.(ITreeNode).GetNs(), prefix)
-		return strings.HasPrefix(s.(ITreeNode).GetNs(), prefix) && !strings.Contains(last, "."), nil
-	}).OrderBy(func(a, b linq.T) bool {
-		return a.(ITreeNode).GetQz() > b.(ITreeNode).GetQz()
-	}).Results()
+		return strings.HasPrefix(s.(ITreeNode).GetNs(), prefix) && !strings.Contains(last, ".")
+	})
+	if q.Any() {
+		return q.OrderBy(func(a interface{}) interface{} {
+			return a.(ITreeNode).GetQz()
+		}).Results()
+	}
+	return q.Results()
 }
