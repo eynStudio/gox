@@ -19,11 +19,13 @@ type TreeNode struct {
 	Nodes []*TreeNode
 }
 
+type TreeNodes []*TreeNode
+
 func newTreeNode(m ITreeNode) *TreeNode {
 	return &TreeNode{m.GetMc(), m.GetNs(), m, make([]*TreeNode, 0)}
 }
 
-func BuildTree(src interface{}) []*TreeNode {
+func BuildTree(src interface{}) TreeNodes {
 	root := &TreeNode{"", "", nil, make([]*TreeNode, 0)}
 	buildTreeNodes(src, root, "")
 	return root.Nodes
