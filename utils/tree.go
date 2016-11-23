@@ -46,7 +46,7 @@ func queryChildren(ss interface{}, prefix string) []interface{} {
 		return strings.HasPrefix(s.(ITreeNode).GetNs(), prefix) && !strings.Contains(last, ".")
 	})
 	if q.Any() {
-		return q.OrderBy(func(a interface{}) interface{} {
+		return q.OrderByDescending(func(a interface{}) interface{} {
 			return a.(ITreeNode).GetQz()
 		}).Results()
 	}
