@@ -41,14 +41,10 @@ func buildTreeNodes(src interface{}, r *TreeNode, prefix string) {
 }
 
 func queryChildren(ss interface{}, prefix string) []interface{} {
-	q := linq.From(ss).Where(func(s interface{}) bool {
+	return linq.From(ss).Where(func(s interface{}) bool {
 		last := strings.TrimPrefix(s.(ITreeNode).GetNs(), prefix)
 		return strings.HasPrefix(s.(ITreeNode).GetNs(), prefix) && !strings.Contains(last, ".")
-	})
-	if q.Any() {
-		return q.OrderByDescending(func(a interface{}) interface{} {
-			return a.(ITreeNode).GetQz()
-		}).Results()
-	}
-	return q.Results()
+	}).OrderByDescending(func(a interface{}) interface{} {
+		return a.(ITreeNode).GetQz()
+	}).Results()
 }
