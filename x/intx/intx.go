@@ -10,7 +10,7 @@ func Contains(lst []int, v int) bool {
 }
 
 func Intersect(lst1, lst2 []int) (lst []int) {
-	for _, it := range lst {
+	for _, it := range lst1 {
 		if Contains(lst2, it) {
 			lst = append(lst, it)
 		}
