@@ -41,3 +41,5 @@ func toCamel(first func(r rune) rune, s string) string {
 	}
 	return buf.String()
 }
+
+func Wrap(str, wrap string) string { return wrap + str + wrap }
