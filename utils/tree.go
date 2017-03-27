@@ -4,15 +4,18 @@ import (
 	"strings"
 
 	linq "github.com/ahmetalpbalkan/go-linq"
+	"github.com/eynstudio/gobreak"
 )
 
 type ITreeNode interface {
+	GetId() gobreak.GUID
 	GetMc() string
 	GetNs() string
 	GetQz() int
 }
 
 type TreeNode struct {
+	Id    gobreak.GUID
 	Mc    string
 	Ns    string
 	M     interface{}
@@ -22,11 +25,11 @@ type TreeNode struct {
 type TreeNodes []*TreeNode
 
 func newTreeNode(m ITreeNode) *TreeNode {
-	return &TreeNode{m.GetMc(), m.GetNs(), m, make([]*TreeNode, 0)}
+	return &TreeNode{Id: m.GetId(), Mc: m.GetMc(), Ns: m.GetNs(), M: m, Nodes: make([]*TreeNode, 0)}
 }
 
 func BuildTree(src interface{}) TreeNodes {
-	root := &TreeNode{"", "", nil, make([]*TreeNode, 0)}
+	root := &TreeNode{"", "", "", nil, make([]*TreeNode, 0)}
 	buildTreeNodes(src, root, "")
 	return root.Nodes
 }
